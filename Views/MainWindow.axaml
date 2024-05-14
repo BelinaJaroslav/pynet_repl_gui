@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:pynet_gui_repl.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="pynet_gui_repl.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="pynet_gui_repl">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="10,*,10,Auto,10" ColumnDefinitions="10,7*,10,2*,10,1*,10">
+        <Border Grid.Row="1" Grid.Column="1" MaxHeight="1000" BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Padding="10">
+            <ScrollViewer>
+                <SelectableTextBlock TextWrapping="Wrap" FontFamily="Consolas,Ubuntu Mono" Text="{Binding Variables.CommandHistory}" />
+            </ScrollViewer>
+        </Border>
+        <DataGrid IsReadOnly="True" CanUserReorderColumns="True" CanUserResizeColumns="True"
+            CanUserSortColumns="False" GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray"
+            Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="3" FontFamily="Consolas,Ubuntu Mono" ItemsSource="{Binding Variables.ListItems}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Variable" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="{Binding Variables.CommandLine}" FontFamily="Consolas,Ubuntu Mono"/>
+        <Button Content=">>>" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Stretch" Grid.ColumnSpan="1" IsDefault="True" Command="{Binding Variables.PushCommand}"/>
+    </Grid>
+
+</Window>

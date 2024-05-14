@@ -1,0 +1,11 @@
+﻿pd.options.display.max_columns = 5; pd.options.display.width = 160;
+df = load()
+df.describe()
+x = df[['Harmonics/Uh_U1_h,%d' % i for i in range(1, 25+1)]]
+x = (x - x.mean()) / x.var();
+y = df['U_U1'];
+model = skl_lm.LinearRegression();
+model.fit(x[:][10:], y[:][10:]);
+pred = model.predict(x[:][:10])
+err = (pred - y[:][:10]).abs()
+y.std()
